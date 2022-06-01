@@ -7,9 +7,9 @@ import numpy as np
 
 from scipy import signal
 from scipy.signal import filtfilt
-from pylab import figure, plot, vlines
+# from pylab import figure, plot, vlines
 
-with open('gots_dictionary.json') as data_file:
+with open('/home/hattajr/workdir/project/SyntacticSeachOnTimeSeries/backend/gots_dictionary.json') as data_file:
     gots_func_dict = json.load(data_file)
 
 
@@ -461,7 +461,7 @@ def ssts(s, cfg, report='clean'):
         pp_func_stack = pp_str[i].split(" ")
         for j, val in enumerate(pp_func_stack):
             if not isfloat(val):
-                if val is "":
+                if val == "":
                     continue
                 elif val not in list(gots_func_dict["pre_processing"].keys()):
                     sys.exit('Unknown pre-processing symbol.')
@@ -473,7 +473,7 @@ def ssts(s, cfg, report='clean'):
                         else:
                             operands += subval + ','
 
-                    if operands is "":
+                    if operands == "":
                         ns[i] = eval(gots_func_dict["pre_processing"][operator] + '(ns[' + str(i) + '])')
                     else:
                         ns[i] = eval(gots_func_dict["pre_processing"][operator] + '(ns[' + str(i) + '],' + operands[:-1] + ')')
@@ -489,7 +489,7 @@ def ssts(s, cfg, report='clean'):
         sc_func_stack = sc_str[i].split(" ")
         for j, val in enumerate(sc_func_stack):
             if not isfloat(val):
-                if val is "":
+                if val == "":
                     sys.exit('At least a connotation method must be supplied.')
                 elif val[0] == "[" and val[-1] == "]":
                     continue
@@ -503,7 +503,7 @@ def ssts(s, cfg, report='clean'):
                         else:
                             operands += subval + ','
 
-                    if operands is "":
+                    if operands == "":
                         _constr = eval(gots_func_dict["connotation"][operator] + '(ns[' + str(i) + '])')
 
                     else:
@@ -525,7 +525,7 @@ def ssts(s, cfg, report='clean'):
     if ns.shape[0] == 1:
         ns = ns[0]
 
-    if report is 'clean':
+    if report == 'clean':
         return matches
-    elif report is 'full':
+    elif report == 'full':
         return ns, constr, matches
